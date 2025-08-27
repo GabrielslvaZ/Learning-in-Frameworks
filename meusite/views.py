@@ -16,4 +16,12 @@ def login_view(request):
         else:
             return render(request, "login.html", {"error": "Credenciais inválidas"})
     return render(request, "login.html")
+def custom_404(request, exception):
+    return render(request, 'errors/404.html', status=404)
+
+def custom_500(request):
+    return render(request, 'errors/500.html', status=500)
+
+def custom_403(request, exception):
+    return render(request, 'errors/403.html', status=403)
 
