@@ -13,5 +13,7 @@ urlpatterns = [
     path('reset/feito/', auth_views.PasswordResetCompleteView.as_view(template_name='reset_feito.html'), name='reset_feito'),
     path('profile/', views.profile, name='profile'),
     path('register/', views.register, name='register'),
- 
+    path('404/', views.erro_404, name='erro_404'),
+    path('500/', views.erro_500, name='erro_500'),
+    path('403/', views.erro_403, name='erro_403'),
 ]
