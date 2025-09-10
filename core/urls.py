@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from meusite import views as meusite_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('meusite.urls')), 
 ]
+handler404 = meusite_views.custom_404
+handler500 = meusite_views.custom_500
+handler403 = meusite_views.custom_403
