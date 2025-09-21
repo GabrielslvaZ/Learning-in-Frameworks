@@ -53,3 +53,7 @@ def pessoas_list(request):
     pessoas = Pessoa.objects.all()
     return render(request, 'pessoas_list.html', {'pessoas': pessoas})
 
+def pessoas_index(request):
+    pessoas = Pessoa.objects.select_related('usuario', 'endereco').all()
+    return render(request, 'index.html', {'pessoas': pessoas})
+

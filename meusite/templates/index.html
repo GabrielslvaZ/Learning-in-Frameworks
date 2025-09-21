@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Pessoas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4">Pessoas Cadastradas</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Usuário</th>
+                <th>Endereço</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pessoa in pessoas %}
+            <tr>
+                <td>{{ pessoa.usuario.get_full_name }}</td>
+                <td>{{ pessoa.usuario.username }}</td>
+                <td>{{ pessoa.endereco }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">Nenhuma pessoa cadastrada.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
