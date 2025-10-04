@@ -47,7 +47,11 @@ def custom_403(request, exception):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html')
+    try:
+        pessoa = Pessoa.objects.get(usuario=request.user)
+    except Pessoa.DoesNotExist:
+        pessoa = None
+    return render(request, 'perfil.html', {'pessoa': pessoa})
 
 def pessoas_list(request):
     pessoas = Pessoa.objects.all()
