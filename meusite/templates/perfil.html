@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Perfil de {{ target_user.get_full_name|default:target_user.username }}</h3>
+            <p class="text-muted">Usuário: {{ target_user.username }}</p>
+
+            {% if pessoa %}
+                <h5>Dados pessoais</h5>
+                <ul class="list-unstyled">
+                    <li><strong>CPF:</strong> {{ pessoa.cpf }}</li>
+                    <li><strong>Email:</strong> {{ pessoa.email }}</li>
+                    <li><strong>Telefone:</strong> {{ pessoa.telefone }}</li>
+                    <li><strong>Data de Nascimento:</strong> {{ pessoa.data_nascimento }}</li>
+                    <li><strong>RG:</strong> {{ pessoa.rg }}</li>
+                </ul>
+
+                <h5>Endereço</h5>
+                {% if pessoa.endereco %}
+                    <ul class="list-unstyled">
+                        <li><strong>Rua:</strong> {{ pessoa.endereco.rua }}, {{ pessoa.endereco.numero }}</li>
+                        <li><strong>Bairro:</strong> {{ pessoa.endereco.bairro }}</li>
+                        <li><strong>Cidade/Estado:</strong> {{ pessoa.endereco.cidade }} / {{ pessoa.endereco.estado }}</li>
+                        <li><strong>CEP:</strong> {{ pessoa.endereco.cep }}</li>
+                    </ul>
+                {% else %}
+                    <p class="text-warning">Nenhum endereço cadastrado.</p>
+                {% endif %}
+
+            {% else %}
+                <p class="text-warning">Nenhum registro de pessoa encontrado para este usuário.</p>
+            {% endif %}
+
+            <div class="mt-3">
+                {% if is_own_profile %}
+                    <a href="#" class="btn btn-primary">Editar meu perfil</a>
+                {% elif request.user.is_staff %}
+                    <a href="#" class="btn btn-secondary">Gerenciar perfil</a>
+                {% endif %}
+                <a href="/" class="btn btn-light">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

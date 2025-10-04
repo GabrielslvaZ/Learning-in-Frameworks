@@ -16,6 +16,15 @@
     <li class="nav-item">
       <a class="nav-link link-light" href="/members">MEMBERS</a>
     </li>
+    {% if user.is_authenticated %}
+    <li class="nav-item ms-auto">
+      <a class="nav-link link-light" href="/perfil/">Perfil</a>
+    </li>
+    {% else %}
+    <li class="nav-item ms-auto">
+      <a class="nav-link link-light" href="/login/">Entrar</a>
+    </li>
+    {% endif %}
   </ul>
 
   {% block content %}

@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Pessoa
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 def home(request):
     return HttpResponse("<h1>Apenas Igniore está tela!</h1>")
@@ -47,11 +49,22 @@ def custom_403(request, exception):
 
 @login_required
 def profile(request):
+    # Se houver um parâmetro GET ?user_id=, permitir que staff/administradores vejam outros perfis
+    user_id = request.GET.get('user_id')
+    target_user = None
+    if user_id and request.user.is_staff:
+        target_user = get_object_or_404(User, pk=user_id)
+    else:
+        target_user = request.user
+
     try:
-        pessoa = Pessoa.objects.get(usuario=request.user)
+        pessoa = Pessoa.objects.select_related('usuario', 'endereco').get(usuario=target_user)
     except Pessoa.DoesNotExist:
         pessoa = None
-    return render(request, 'perfil.html', {'pessoa': pessoa})
+
+    # Indica se o usuário atual está apenas vendo seu próprio perfil
+    is_own_profile = (target_user == request.user)
+    return render(request, 'perfil.html', {'pessoa': pessoa, 'is_own_profile': is_own_profile, 'target_user': target_user})
 
 def pessoas_list(request):
     pessoas = Pessoa.objects.all()
